@@ -17,6 +17,30 @@
    				)
    </insert>
    
+   <select id="list" resultType="com.books.TO.CommunityTO">
+   	SELECT bno, title, user_id, regdate, cnt
+   	FROM BookCommunity
+   	ORDER BY bno DESC
+   </select>
    
+   
+   <select id="read" parameterType="int" resultType="com.books.TO.CommunityTO">
+   		SELECT bno, title, user_id, content
+   		FROM BookCommunity
+   		WHERE bno = #{bno}
+   </select>
+   
+   <update id="update" parameterType="com.books.TO.CommunityTO">
+   		UPDATE BookCommunity
+   			SET title = #{title},
+   				content = #{content}
+   			WHERE bno = #{bno}
+   </update>
+   
+   <delete id="delete" parameterType="int">
+   		DELETE 
+   			FROM BookCommunity
+   			WHERE bno = #{bno}
+   </delete>
    
 </mapper>
