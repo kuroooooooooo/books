@@ -7,10 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.books.TO.CommunityTO;
+import com.books.TO.PageMaker;
+import com.books.TO.Criteria;
 import com.books.service.CommunityService;
 
 
@@ -41,43 +44,59 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/books/list", method= RequestMethod.GET)
-	public String list(Model model) throws Exception{
+	public String list(Model model, Criteria cri) throws Exception{
 		logger.info("list");
 		
-		model.addAttribute("list", cs.list());
+		model.addAttribute("list", cs.list(cri));
+		
+		PageMaker pm = new PageMaker();
+		
+		pm.setCri(cri);
+		pm.setTotalCount(cs.listCount());
+		
+		model.addAttribute("pm", pm);
 		
 		return "/books/list";
 	}
 	
-	/*
-	 * @RequestMapping(value="/books/readView", method=RequestMethod.GET) public
-	 * String read(CommunityTO to, Model model) throws Exception{
-	 * 
-	 * logger.info("read");
-	 * 
-	 * model.addAttribute("read", cs.read(to.getBno()));
-	 * 
-	 * return "/books/readView"; }
-	 */
+	@RequestMapping(value = "/readView", method = RequestMethod.GET)
+	public String read(CommunityTO to, Model model) throws Exception{
+		logger.info("read!");
+		
+		model.addAttribute("read", cs.read(to.getBno()));
+		
+		
+		return "books/readView";
+		
+	}
 	
 	
-	/*
-	 * @RequestMapping(value = "/books/updateView", method = RequestMethod.GET)
-	 * public String updateView(CommunityTO to, Model model) throws Exception{
-	 * logger.info("updateView");
-	 * 
-	 * model.addAttribute("update", cs.read(to.getBno()));
-	 * 
-	 * return "/books/updateView"; }
-	 */
+	@RequestMapping(value="/updateView", method = RequestMethod.GET)
+	public String updateView(CommunityTO to, Model model) throws Exception{
+		logger.info("updateView");
+		
+		model.addAttribute("update", cs.read(to.getBno()));
+		
+		
+		return "books/updateView";
+	}
 	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(CommunityTO to) throws Exception{
+		logger.info("update!");
+		
+		cs.update(to);
+		
 	
-	/*
-	 * @RequestMapping(value="/books/delete", method = RequestMethod.POST) public
-	 * String delete(CommunityTO to) throws Exception{ logger.info("delete");
-	 * 
-	 * cs.delete(to.getBno());
-	 * 
-	 * return "redirect:/books/list"; }
-	 */
+		return "redirect:/books/list";
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete(CommunityTO to) throws Exception{
+		logger.info("delete");
+		
+		cs.delete(to.getBno());
+		
+		return "redirect:/books/list";
+	}
 }

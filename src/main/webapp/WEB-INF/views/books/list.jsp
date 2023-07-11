@@ -8,6 +8,12 @@
 	<title>Insert title here</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+	<style type="text/css">
+		li{
+			list-style: none; float: left; padding: 6px;
+		}
+	</style>
+
 </head>
 <body>
 	<!-- 검색 -->
@@ -17,7 +23,7 @@
 			<nav class="navbar navbar-expand-lg bg-light">
 			  <ul class="nav justify-content-center">
 			    <li class="nav-item card ">
-			        <a class="nav-link active fs-5" href="/board/list">BOOK STORE</a>
+			        <a class="nav-link active fs-5" href="/books/list">BOOK STORE</a>
 			    </li>
 			  </ul>
 			  <div class="container-fluid mp-3">
@@ -97,20 +103,25 @@
     </div>
     
     <!-- 페이지네이션 -->
-    <div>
-    	<nav aria-label="Page navigation example">
-  			<ul class="pagination justify-content-center">
-			    <li class="page-item disabled">
-			      <a class="page-link">Previous</a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#">Next</a>
-			    </li>
- 			</ul>
-		</nav>
-	</div>
+    <div class="row">
+      <div class="col">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <c:if test="${pm.prev}">
+	            <li class="page-item">
+	              <a class="page-link" href="list${pm.makeQuery(pm.startPage - 1)}">이전</a>
+	            </li>
+            </c:if>
+            <c:forEach  begin="${pm.startPage}" end="${pm.endPage}" var="idx">
+            	<li class="page-item"><a class="page-link" href="list${pm.makeQuery(idx)}">${idx}</a></li>
+            </c:forEach>
+            <c:if test="${pm.next && pm.endPage > 0}">
+	            <li class="page-item">
+					<a class="page-link" href="list${pm.makeQuery(pm.endPage + 1)}">다음</a>
+	            </li>
+            </c:if>
+          </ul>
+        </nav>
+      </div>
 </body>
 </html>

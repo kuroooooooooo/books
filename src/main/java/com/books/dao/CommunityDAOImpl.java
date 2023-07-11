@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.books.TO.CommunityTO;
+import com.books.TO.Criteria;
 
 
 
@@ -24,9 +25,9 @@ public class CommunityDAOImpl implements CommunityDAO {
 
 
 	@Override
-	public List<CommunityTO> list() throws Exception {
+	public List<CommunityTO> list(Criteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return ss.selectList("communityMapper.list");
+		return ss.selectList("communityMapper.listPage",cri);
 	}
 
 
@@ -39,8 +40,8 @@ public class CommunityDAOImpl implements CommunityDAO {
 
 	@Override
 	public void update(CommunityTO to) throws Exception {
-		ss.update("communityMapper.update");
-		
+		// TODO Auto-generated method stub
+		ss.update("communityMapper.update", to);
 	}
 
 
@@ -49,6 +50,16 @@ public class CommunityDAOImpl implements CommunityDAO {
 		// TODO Auto-generated method stub
 		ss.delete("communityMapper.delete", bno);
 	}
+
+
+	@Override
+	public int listCount() throws Exception {
+		// TODO Auto-generated method stub
+		return ss.selectOne("communityMapper.listCount");
+	}
+
+
+	
 	
 	
 

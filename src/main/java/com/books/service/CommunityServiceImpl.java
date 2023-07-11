@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.books.TO.CommunityTO;
+import com.books.TO.Criteria;
 import com.books.dao.CommunityDAO;
 
 
@@ -25,9 +26,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 
 	@Override
-	public List<CommunityTO> list() throws Exception {
+	public List<CommunityTO> list(Criteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list();
+		return dao.list(cri);
 	}
 
 
@@ -53,6 +54,19 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		dao.delete(bno);
 	}
+
+
+
+	@Override
+	public int listCount() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.listCount();
+	}
+
+
+
+	
+	
 
 
 }
