@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.books.TO.CommunityTO;
 import com.books.TO.Criteria;
+import com.books.TO.SearchCriteria;
 import com.books.dao.CommunityDAO;
 
 
@@ -26,9 +27,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 
 	@Override
-	public List<CommunityTO> list(Criteria cri) throws Exception {
+	public List<CommunityTO> list(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list(cri);
+		return dao.list(scri);
 	}
 
 
@@ -58,9 +59,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 
 	@Override
-	public int listCount() throws Exception {
+	public int listCount(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.listCount();
+		return dao.listCount(scri);
 	}
 
 

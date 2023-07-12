@@ -25,17 +25,30 @@
 		        bno, title, content, user_id, regdate, cnt,
 		        row_number() over(order by bno desc) as RNUM
 		    from bookcommunity
+		    where 1 = 1
+		    <include refid="search"></include>
 		    )b
 		where RNUM between #{rowStart} and #{rowEnd}
 		order by bno desc
    </select>
    
+   <sql id="search">
+   		<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+   		<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+   		<if test="searchType == 'w'.toString()">AND USER_ID LIKE '%' || #{keyword} || '%'</if>
+   		<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if>
+   </sql>
+   
    <select id="listCount" resultType="int">
-   	<![CDATA[
-   		SELECT count(bno)
-   		FROM bookcommunity
-   		WHERE bno > 0
-   	]]>
+   		SELECT 
+			COUNT(BNO)
+		  FROM 
+		  	BookCommunity
+		 WHERE 
+		 	1 = 1
+		 <include refid="search"></include>
+		 	AND BNO > 0
+ 
    </select>
    
    

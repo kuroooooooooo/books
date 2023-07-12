@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.books.TO.CommunityTO;
 import com.books.TO.PageMaker;
+import com.books.TO.ReplyDTO;
+import com.books.TO.SearchCriteria;
 import com.books.TO.Criteria;
 import com.books.service.CommunityService;
+import com.books.service.ReplyService;
 
 
 
@@ -27,6 +32,9 @@ public class CommunityController {
 	
 	@Autowired
 	CommunityService cs;
+	
+	@Autowired
+	ReplyService rs;
 	
 	@RequestMapping(value = "/books/writeView", method = RequestMethod.GET)
 	public void writeView() throws Exception{
@@ -44,15 +52,15 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/books/list", method= RequestMethod.GET)
-	public String list(Model model, Criteria cri) throws Exception{
+	public String list(Model model, SearchCriteria scri) throws Exception{
 		logger.info("list");
 		
-		model.addAttribute("list", cs.list(cri));
+		model.addAttribute("list", cs.list(scri));
 		
 		PageMaker pm = new PageMaker();
 		
-		pm.setCri(cri);
-		pm.setTotalCount(cs.listCount());
+		pm.setCri(scri);
+		pm.setTotalCount(cs.listCount(scri));
 		
 		model.addAttribute("pm", pm);
 		
@@ -60,11 +68,15 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "/readView", method = RequestMethod.GET)
-	public String read(CommunityTO to, Model model) throws Exception{
+	public String read(CommunityTO to, Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		logger.info("read!");
 		
 		model.addAttribute("read", cs.read(to.getBno()));
+		model.addAttribute("scri", scri);
 		
+		
+		List<ReplyDTO> replyList = rs.readReply(to.getBno());
+		model.addAttribute("replyList", replyList);
 		
 		return "books/readView";
 		
@@ -72,11 +84,11 @@ public class CommunityController {
 	
 	
 	@RequestMapping(value="/updateView", method = RequestMethod.GET)
-	public String updateView(CommunityTO to, Model model) throws Exception{
+	public String updateView(CommunityTO to, Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		logger.info("updateView");
 		
 		model.addAttribute("update", cs.read(to.getBno()));
-		
+		model.addAttribute("scri", scri);
 		
 		return "books/updateView";
 	}
@@ -87,16 +99,24 @@ public class CommunityController {
 		
 		cs.update(to);
 		
+		
 	
 		return "redirect:/books/list";
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String delete(CommunityTO to) throws Exception{
+	public String delete(CommunityTO to, @ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) throws Exception{
 		logger.info("delete");
 		
 		cs.delete(to.getBno());
 		
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
+		
 		return "redirect:/books/list";
 	}
+	
+	
 }

@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.books.TO.CommunityTO;
 import com.books.TO.Criteria;
+import com.books.TO.SearchCriteria;
 
 public interface CommunityDAO {
 	public void write(CommunityTO to) throws Exception;
 
-	public List<CommunityTO> list(Criteria cri) throws Exception;
+	public List<CommunityTO> list(SearchCriteria scri) throws Exception;
 	
-	public int listCount() throws Exception;
+	public int listCount(SearchCriteria scri) throws Exception;
 	
 	public CommunityTO read(int bno) throws Exception;
 	

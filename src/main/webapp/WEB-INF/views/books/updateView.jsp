@@ -14,7 +14,11 @@
 $(document).ready(function(){
 	$(".cancel_btn").on("click", function(){
 		event.preventDefault();
-		location.href = "/books/list";
+		location.href = "/books/readView?bno=${update.bno}"
+			   + "&page=${scri.page}"
+			   + "&perPageNum=${scri.perPageNum}"
+			   + "&searchType=${scri.searchType}"
+			   + "&keyword=${scri.keyword}";
 	});
 	
 	
@@ -31,87 +35,41 @@ function fn_valiChk(){
 }
 </script>
 <body>
-	<div class="row pt-3">
-		<div class="col-mb-3">
-			
-			<!-- nav바 -->
-			<nav class="navbar navbar-expand-lg bg-light">
-				<ul class="nav justify-content-center">
-					<li class="nav-item card">
-						<a class="nav-link active fs-5" href="/books/list">BOOK STORE</a>
-					</li>
-				</ul>
-				<div class="container-fluid">
-					<a class="navbar-brand" href="#">N</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="#">Home</a>
-							</li>
-							<li class="nav-item">
-					        	<a class="nav-link" href="#">Link</a>
-					        </li>
-					        <li class="nav-item dropdown">
-					        	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						            Dropdown
-						        </a>
-						        <ul class="dropdown-menu">
-						        	<li><a class="dropdown-item" href="#">Action</a></li>
-						        	<li><a class="dropdown-item" href="#">Another action</a></li>
-						        	<li><hr class="dropdown-divider"></li>
-						        	<li><a class="dropdown-item" href="#">Something else here</a></li>
-						        </ul>
-					        </li>
-					        <li class="nav-item">
-					        	<a class="nav-link disabled">Disabled</a>
-					        </li>
-						</ul>
-						<form class="d-flex" role="search">
-							<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        					<button class="btn btn-outline-success" type="submit">Search</button>
-						</form>
-					</div>
-				</div>
-			</nav>
-		</div>
-	</div>
+	<%@include file="header.jsp"%>
 				
 	<hr />
 	<!-- 본문 -->
-	<section id="container">
-		<form name="updateForm" role="form" method="post" action="/books/update">
-			<input type="hidden" name="bno" value="${update.bno}" readonly />
-				<table class="table table-striped">
-					<tbody class="card-body pmd-3 text-center">
-						<tr class="col-3 card text-bg-info mb-3 mx-auto">
-							<td>
-								<label for="title">제목</label>
-								<input type="text" id="title" name="title" value ="${update.title}" />
-							</td>
-						</tr>
-						<tr class="col-3 card text-bg-light mb-3 mx-auto">
-							<td>
-								<label for="content">내용</label>
-								<textarea id="content" name="content"><c:out value ="${update.content}"></c:out></textarea>
-							</td>
-						</tr>
-						<tr class="col-3 card text-bg-info mb-3 mx-auto">
-							<td>
-								<label for="userId">작성자</label>
-								<input type="text" id="userId" name="userId" value = "${update.userId }" readonly/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+	<div id="container">
+		<div class="col-lg-12 well center">
+			<div class="row">
+				<form name="updateForm" role="form" method="post" action="/books/update">
+					<input type="hidden" name="bno" value="${update.bno}" readonly />
+					<div class="row justify-content-center">
+						<div class="card p-3 col-8">
+							<div class="row mb-3">
+								<div class="col-4">
+									<label for="userId" class="form-label bg-warning text-dark bg-opacity-25">작성자</label>
+									<input type="text" class="form-control chk" id="userId" name="userId" value = "${update.userId }" readonly/>
+								</div>
+								<div class="col-8">
+									<label for="title" class="form-label bg-warning text-dark bg-opacity-25">제목</label>
+									<input type="text" id="title" class="form-control chk" name="title" value ="${update.title}" />
+								</div>
+							</div>
+							<div class="col-12">
+								<label for="content" class="form-label bg-warning text-dark bg-opacity-25">내용</label>
+								<input type="text" class="form-control chk" id="content" name="content"  style="height: 100px" value="${update.content}">
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- 버튼 -->
 				<div class="d-grid gap-w d-md-block">
 					<button type="submit" class="btn btn-outline-primary update_btn">저장</button>
 					<button type="submit" class="btn btn-outline-secondary cancle_btn">취소</button>
 				</div>
 			</form>
-	</section>
+		</div>
+	</div>
 </body>
 </html>

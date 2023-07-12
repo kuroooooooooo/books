@@ -32,48 +32,40 @@
 	</script>
 	<body>
 	
-		<div id="root">
-			<header>
-				<h1> 게시판</h1>
-			</header>
-			<hr />
-			 
-			<nav>
-			  홈 - 글 작성
-			</nav>
-			<hr />
+		<%@include file="header.jsp"%>
 			
-			<section id="container">
-				<form name="writeForm" method="post" action="/books/write">
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<label for="title">제목</label>
-									<input type="text" id="title" name="title" class="chk" title="제목을 입력하세요"/>
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<label for="content">내용</label>
-									<textarea id="content" name="content" class="chk" title="내용을 입력하세요"></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="userId">작성자</label>
-									<input type="text" id="userId" name="userId" class="chk"/>
-								</td>
-							<tr>
-								<td>						
-									<button type="submit" class="write_btn">작성</button>
-								</td>
-							</tr>			
-						</tbody>			
-					</table>
-				</form>
-			</section>
 			<hr />
-		</div>
+			<!-- 본문 -->
+			<div class="container">
+				<div class="col-lg-12 well">
+					<div class="row">
+						<form name="writeForm" method="post" action="/books/write">
+							<div class="row justify-content-center">
+								<div class="card p-3 col-8">
+									<div class="row mb-3">
+										<div class="col-4">
+											<label for="userId" class="form-label">작성자</label>
+											<input type="text" id="userId" class="form-control chk" name="userId" />
+										</div>
+										
+										<div class="col-md-8">
+											<label for="title" class="form-label">제목</label>
+											<input type="text" id="title"  name="title" class="form-control chk" title="제목을 입력하세요"/>
+										</div>
+									</div>
+									<div class="col-12">
+										<label for="content">내용</label>
+										<textarea id="content" class="form-control chk" name="content" style="height: 100px" title="내용을 입력하세요"></textarea>
+									</div>
+								</div>
+								<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+				                    <button type="submit" class="btn btn-outline-primary write_btn">등록하기</button>
+				                    <a href="/books/list"><button type="button" class="btn btn-outline-dark">취소</button></a>
+				                </div>			
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 	</body>
 </html>

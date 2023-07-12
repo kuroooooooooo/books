@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.books.TO.CommunityTO;
 import com.books.TO.Criteria;
+import com.books.TO.SearchCriteria;
 
 
 
@@ -25,9 +26,9 @@ public class CommunityDAOImpl implements CommunityDAO {
 
 
 	@Override
-	public List<CommunityTO> list(Criteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return ss.selectList("communityMapper.listPage",cri);
+	public List<CommunityTO> list(SearchCriteria scri) throws Exception {
+		
+		return ss.selectList("communityMapper.listPage",scri);
 	}
 
 
@@ -53,9 +54,9 @@ public class CommunityDAOImpl implements CommunityDAO {
 
 
 	@Override
-	public int listCount() throws Exception {
+	public int listCount(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return ss.selectOne("communityMapper.listCount");
+		return ss.selectOne("communityMapper.listCount", scri);
 	}
 
 
